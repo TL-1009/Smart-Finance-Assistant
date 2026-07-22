@@ -4,7 +4,13 @@ import csv
 import os
 
 from datetime import datetime
-import matplotlib.pyplot as plt
+PLOTTING_AVAILABLE = False
+
+try:
+    import matplotlib.pyplot as plt
+    PLOTTING_AVAILABLE = True
+except Exception:
+    print("📊 Plotting library unavailable. Savings trend graph skipped.")
 from scipy.optimize import linprog
 
 print("===================================================")
@@ -171,7 +177,7 @@ def emi_calc(p, r, y):
 # ---------------- HOUSING ----------------
 print("\n🏠 HOUSING SECTION")
 
-housing = get_choice("Enter housing type (rent / pg / own / own place): ",
+housing = get_choice("Enter housing type (rent / pg / own (or) own place): ",
                      ["rent", "pg", "own", "own place"])
 
 if housing == "pg":
@@ -873,92 +879,105 @@ with open(
 
 print("🟢 Financial history saved.")
 
-#---------- TREND ANALYSIS ----------
+# ---------- TREND ANALYSIS ----------
 
-print("\n📈 TREND ANALYSIS")
+print("\n===================================================")
+print("📈 TREND ANALYSIS")
+print("===================================================")
 
-rows=[]
+rows = []
 
 if os.path.exists(filename):
 
-    with open(filename, "r") as file:
+    with open(filename, "r", encoding="utf-8") as file:
 
         reader = csv.DictReader(file)
 
         for row in reader:
 
-            if row["Name"] == name:
+            if row["Name"].strip().lower() == name.strip().lower():
                 rows.append(row)
 
 else:
-    print("No history available.")
 
-if len(rows) > 0:
+    print("No financial history found.")
+
+if len(rows) == 0:
+
+    print("No previous records available.")
+
+else:
 
     savings_history = []
 
     for row in rows:
 
         try:
-            savings_history.append(
-                float(row["Savings"])
-            )
 
-        except ValueError:
+            savings_history.append(float(row["Savings"]))
 
-            print(
-                "Invalid savings data skipped"
-            )
+        except:
 
-    if len(savings_history) > 0:
-        recent_history = savings_history[-15:]
+            pass
 
-    plt.plot(
-        recent_history,
-        marker="o",
-        linewidth=2
-    )
+    if len(savings_history) == 0:
 
-    plt.title("Savings Trend")
-    plt.xlabel("Session")
-    plt.ylabel("Savings (₹)")
-    plt.grid()
-    plt.tight_layout()
-    plt.show()
-
-else:
-    print("No valid savings history found.")
-
-if len(rows) >= 2:
-
-    previous=float(rows[-2]["Savings"])
-    current=float(rows[-1]["Savings"])
-
-    diff=current-previous
-
-    if diff > 0:
-
-        print(
-            f"⬆ Savings increased by ₹{round(diff)}"
-        )
-
-    elif diff < 0:
-
-        print(
-            f"⬇ Savings decreased by ₹{abs(round(diff))}"
-        )
+        print("No valid savings history available.")
 
     else:
 
-        print(
-            "Savings unchanged."
-        )
+        print("\n💰 Savings History")
 
-else:
+        for i, amount in enumerate(savings_history, start=1):
 
-    print(
-        "Not enough history available."
-    )
+            print(f"Session {i:<2} : ₹{round(amount)}")
+
+        print("\n📊 Savings Trend")
+
+        if len(savings_history) == 1:
+
+            print("Only one record available.")
+
+        else:
+
+            previous = savings_history[-2]
+            current = savings_history[-1]
+
+            diff = current - previous
+
+            if diff > 0:
+
+                print(f"⬆ Savings increased by ₹{round(diff)}")
+
+            elif diff < 0:
+
+                print(f"⬇ Savings decreased by ₹{abs(round(diff))}")
+
+            else:
+
+                print("➡ Savings remained unchanged.")
+
+        average = sum(savings_history) / len(savings_history)
+
+        highest = max(savings_history)
+
+        lowest = min(savings_history)
+
+        print("\n📈 Statistics")
+
+        print(f"Average Savings : ₹{round(average)}")
+        print(f"Highest Savings : ₹{round(highest)}")
+        print(f"Lowest Savings  : ₹{round(lowest)}")
+
+        print("\n📊 Text Graph")
+
+        max_value = max(savings_history)
+
+        for i, value in enumerate(savings_history, start=1):
+
+            length = int((value / max_value) * 30) if max_value != 0 else 0
+
+            print(f"Session {i:<2} | {'█'*length} ₹{round(value)}")
 
 # ---------- REPORT EXPORT ----------
 
@@ -994,7 +1013,4 @@ Completion Time: {completion}
 Investment Risk: {risk}
 """
 )
-
 print("📄 Report exported.")
-
-s

@@ -141,10 +141,6 @@ This project is licensed under the **MIT License**.
 
 **Tisya Lall**
 
-Incoming Computer Science Engineering Student
-
 GitHub: https://github.com/TL-1009
 
 ---
-
-⭐ If you found this project interesting, consider giving it a star!

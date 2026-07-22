@@ -41,5 +41,7 @@ An AI-powered personal finance application built in Python that helps users anal
 - File Handling
 - Object-Oriented & Modular Programming
 
+Made by Tisya Lall
+
 🔗 **Repository:**  
 **Smart Finance Assistant** → https://github.com/TL-1009/Smart-Finance-Assistant

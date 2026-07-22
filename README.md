@@ -1,47 +1,150 @@
 # 🚀 Featured Project
 
-## 💰 Smart Finance Assistant
+# 💰 Smart Finance Assistant
 
-An AI-powered personal finance application built in Python that helps users analyze their financial health, optimize spending, and plan long-term wealth.
+An AI-powered personal finance application built in **Python** that helps users analyze their financial health, optimize spending, forecast long-term wealth, and make smarter investment decisions.
 
-### ✨ Key Features
+---
 
-- 📊 Calculates a Financial Health Score (0–100)
-- 💸 Intelligent Budget Analysis
+## 📊 Project Highlights
+
+| Feature | Description |
+|---------|-------------|
+| 💻 Language | Python 3 |
+| 📈 Financial Health Score | Calculates a personalized score (0–100) |
+| 🎯 Goal Planning | Tracks progress towards financial goals |
+| 📊 Monte Carlo Simulation | 1000-run 10-year wealth forecast |
+| ⚡ Budget Optimization | Linear Programming using SciPy |
+| 📉 Trend Analysis | Savings history visualization using Matplotlib |
+| 📄 Report Generation | Automatic financial report export |
+| 💾 Data Storage | CSV-based financial history |
+
+---
+
+# 📸 Project Demo
+
+### Financial Report
+
+![Financial Report](assets/report.png)
+
+---
+
+### Savings Trend
+
+![Savings Trend](assets/trend.png)
+
+---
+
+### Monte Carlo Wealth Forecast
+
+![Monte Carlo](assets/montecarlo.png)
+
+---
+
+### Budget Optimization
+
+![Optimization](assets/optimization.png)
+
+---
+
+# ✨ Features
+
+- 📊 Calculates Financial Health Score (0–100)
+- 💰 Intelligent Budget Analysis
 - 🎯 Financial Goal Planning
 - 🏦 EMI Calculator
-- 🛡 Emergency Fund Recommendation
-- 📈 Personalized Investment Advisory based on Risk Profile
+- 🛟 Emergency Fund Recommendation
+- 📈 Personalized Investment Advisory
 - 🎲 Monte Carlo Wealth Simulation (10-Year Forecast)
-- 🧠 Budget Optimization using Linear Programming (SciPy)
+- ⚡ Budget Optimization using Linear Programming (SciPy)
 - 📉 Savings Trend Analysis with Data Visualization
-- 📂 Financial History Tracking (CSV Database)
+- 💾 Financial History Tracking (CSV Database)
 - 📄 Automatic Financial Report Generation
-- 🖥 Interactive Command-Line Interface
+- 💻 Interactive Command-Line Interface
 
-### 🛠 Technologies Used
+---
 
-- Python
+# 🛠 Technologies Used
+
+- Python 
 - NumPy
 - SciPy
 - Matplotlib
 - CSV
-- Random
-- Math
-- Git & GitHub
+- Git
+- GitHub
 
-### 📚 Concepts Demonstrated
+---
 
-- Financial Modelling
-- Data Analysis
-- Optimization Algorithms
+# 🧠 Concepts Demonstrated
+
+- Financial Modeling
+- Budget Analysis
 - Monte Carlo Simulation
 - Linear Programming
+- Optimization Algorithms
 - Data Visualization
 - File Handling
-- Object-Oriented & Modular Programming
+- Report Generation
+- Financial Forecasting
 
-Made by Tisya Lall
+---
 
-🔗 **Repository:**  
-**Smart Finance Assistant** → https://github.com/TL-1009/Smart-Finance-Assistant
+# 📂 Repository Structure
+
+```text
+Smart-Finance-Assistant
+│
+├── main.py
+├── README.md
+├── requirements.txt
+├── LICENSE
+└── .gitignore
+```
+
+---
+
+# 🚀 Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/TL-1009/Smart-Finance-Assistant.git
+```
+
+Move into the project folder
+
+```bash
+cd Smart-Finance-Assistant
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the project
+
+```bash
+python main.py
+```
+---
+
+# 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+# 👩‍💻 Author
+
+**Tisya Lall**
+
+Incoming Computer Science Engineering Student
+
+GitHub: https://github.com/TL-1009
+
+---
+
+⭐ If you found this project interesting, consider giving it a star!

@@ -1,60 +1,45 @@
-# 💰 Smart Finance Assistant
+# 🚀 Featured Project
 
-An AI-powered command-line financial planning application built using Python.
+## 💰 Smart Finance Assistant
 
-## 🚀 Features
+An AI-powered personal finance application built in Python that helps users analyze their financial health, optimize spending, and plan long-term wealth.
 
-- Financial health score (0–100)
-- Budget analysis
-- Goal planning
-- EMI calculator
-- Emergency fund recommendation
-- Investment advisory
-- Monte Carlo wealth simulation
-- Budget optimization using Linear Programming
-- Savings trend analysis
-- CSV history tracking
-- Automatic financial report export
+### ✨ Key Features
 
-## 🛠 Technologies Used
+- 📊 Calculates a Financial Health Score (0–100)
+- 💸 Intelligent Budget Analysis
+- 🎯 Financial Goal Planning
+- 🏦 EMI Calculator
+- 🛡 Emergency Fund Recommendation
+- 📈 Personalized Investment Advisory based on Risk Profile
+- 🎲 Monte Carlo Wealth Simulation (10-Year Forecast)
+- 🧠 Budget Optimization using Linear Programming (SciPy)
+- 📉 Savings Trend Analysis with Data Visualization
+- 📂 Financial History Tracking (CSV Database)
+- 📄 Automatic Financial Report Generation
+- 🖥 Interactive Command-Line Interface
+
+### 🛠 Technologies Used
 
 - Python
-- Matplotlib
+- NumPy
 - SciPy
+- Matplotlib
 - CSV
 - Random
 - Math
+- Git & GitHub
 
-## 📂 Project Structure
+### 📚 Concepts Demonstrated
 
-```
-main.py
-requirements.txt
-README.md
-```
+- Financial Modelling
+- Data Analysis
+- Optimization Algorithms
+- Monte Carlo Simulation
+- Linear Programming
+- Data Visualization
+- File Handling
+- Object-Oriented & Modular Programming
 
-## ▶️ How to Run
-
-Install dependencies
-
-```
-pip install -r requirements.txt
-```
-
-Run
-
-```
-python main.py
-```
-
-## 📈 Future Improvements
-
-- GUI version
-- Streamlit Web App
-- AI chatbot
-- PDF report generation
-- Database integration
-
----
-
-Made by Tisya Lall
+🔗 **Repository:**  
+**Smart Finance Assistant** → https://github.com/TL-1009/Smart-Finance-Assistant

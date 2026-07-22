@@ -10,7 +10,7 @@ An AI-powered personal finance application built in **Python** that helps users 
 
 | Feature | Description |
 |---------|-------------|
-| 💻 Language | Python 3 |
+| 💻 Language | Python   |
 | 📈 Financial Health Score | Calculates a personalized score (0–100) |
 | 🎯 Goal Planning | Tracks progress towards financial goals |
 | 📊 Monte Carlo Simulation | 1000-run 10-year wealth forecast |

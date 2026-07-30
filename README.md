@@ -5,31 +5,6 @@
 An AI-powered personal finance application built in **Python** that helps users analyze their financial health, optimize spending, forecast long-term wealth, and make smarter investment decisions.
 
   ---
-              User
-              │
-              ▼
-      Smart Finance Assistant
-              │
-   ┌──────────┼──────────┐
-   ▼          ▼          ▼
-Budget     Investment   Goal Analysis
-Analysis    Advisory
-   │          │
-   └──────┬───┘
-          ▼
-Financial Score Engine
-          │
-     CSV Database
-          │
-     Trend Analysis
-          │
- Monte Carlo Simulation
-          │
- Budget Optimization
-          │
-      Report Export
-      
-  ---
 # Workflow
 
 Input
@@ -61,6 +36,7 @@ Trend Analysis
 ↓
 
 Report
+
 ---
 
 

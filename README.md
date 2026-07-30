@@ -4,8 +4,8 @@
 
 An AI-powered personal finance application built in **Python** that helps users analyze their financial health, optimize spending, forecast long-term wealth, and make smarter investment decisions.
 
----
-            User
+  ---
+              User
               │
               ▼
       Smart Finance Assistant
@@ -28,7 +28,7 @@ Financial Score Engine
  Budget Optimization
           │
       Report Export
-
+      
   ---
 # Workflow
 

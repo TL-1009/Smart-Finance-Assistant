@@ -39,19 +39,19 @@ An AI-powered personal finance application built in **Python** that helps users 
 
 ### Savings Trend
 
-![Savings Trend](assets/trend.png)
+![Savings Trend Analysis](Savings_Trend.png)
 
 ---
 
 ### Monte Carlo Wealth Forecast
 
-![Monte Carlo](assets/montecarlo.png)
+![Monte Carlo](Monte_Carlo_Wealth_Forecast.png)
 
 ---
 
 ### Budget Optimization
 
-![Optimization](assets/optimization.png)
+![Optimization](Budget_Optimization.png)
 
 ---
 

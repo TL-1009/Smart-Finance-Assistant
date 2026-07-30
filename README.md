@@ -5,6 +5,64 @@
 An AI-powered personal finance application built in **Python** that helps users analyze their financial health, optimize spending, forecast long-term wealth, and make smarter investment decisions.
 
 ---
+            User
+              │
+              ▼
+      Smart Finance Assistant
+              │
+   ┌──────────┼──────────┐
+   ▼          ▼          ▼
+Budget     Investment   Goal Analysis
+Analysis    Advisory
+   │          │
+   └──────┬───┘
+          ▼
+Financial Score Engine
+          │
+     CSV Database
+          │
+     Trend Analysis
+          │
+ Monte Carlo Simulation
+          │
+ Budget Optimization
+          │
+      Report Export
+
+  ---
+# Workflow
+
+Input
+
+↓
+
+Budget Analysis
+
+↓
+
+Goal Planning
+
+↓
+
+Investment Analysis
+
+↓
+
+Monte Carlo
+
+↓
+
+Optimization
+
+↓
+
+Trend Analysis
+
+↓
+
+Report
+---
+
 
 ## 📊 Project Highlights
 
@@ -41,9 +99,26 @@ An AI-powered personal finance application built in **Python** that helps users 
 
 ![Savings Trend Analysis](Savings%20Trend.png)
 
+Income:
+₹120000
+
+Expenses:
+₹106602
+
+Savings:
+₹13398
+
+Status:
+GOOD
+
+Financial Score:
+82/100
+
 ---
 
 ### Monte Carlo Wealth Forecast
+
+The application performs 1000 Monte Carlo simulations using randomly sampled inflation, salary growth and market return distributions to estimate future wealth instead of relying on a fixed CAGR.
 
 ![Monte Carlo](Monte%20Carlo%20Wealth%20Forecast.png)
 
@@ -51,7 +126,21 @@ An AI-powered personal finance application built in **Python** that helps users 
 
 ### Budget Optimization
 
+The optimizer uses scipy.optimize.linprog to maximize monthly savings while satisfying minimum expenditure constraints for groceries, food, travel, healthcare and miscellaneous expenses.
+
 ![Optimization](Budget%20Optimization.png)
+
+Budget Allocation
+
+🥦 32%
+
+🍔 28%
+
+🚗 18%
+
+🏥 12%
+
+📦 10%
 
 ---
 
@@ -97,6 +186,15 @@ An AI-powered personal finance application built in **Python** that helps users 
 - Financial Forecasting
 
 ---
+# Project Statistics
+- 1000+ Lines of Python
+- 10+ Financial Modules
+- 1000 Monte Carlo Simulations
+- Linear Programming Optimizer
+- CSV Database
+- Financial Scoring Engine
+---
+
 
 # 📂 Repository Structure
 
@@ -107,6 +205,11 @@ Smart-Finance-Assistant
 ├── README.md
 ├── requirements.txt
 ├── LICENSE
+├── Savings Trend.png
+├── financial_report.png
+├── Budget Optimization.png
+├── Monte Carlo Wealth Forecast.png
+├── home.png
 └── .gitignore
 ```
 
@@ -142,6 +245,10 @@ python main.py
 # 📜 License
 
 This project is licensed under the **MIT License**.
+
+Educational Project
+
+This project is intended for educational purposes and should not be treated as professional financial advice.
 
 ---
 

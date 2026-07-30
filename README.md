@@ -23,9 +23,17 @@ An AI-powered personal finance application built in **Python** that helps users 
 
 # 📸 Project Demo
 
+## 📸 Screenshots
+
+### Home Screen
+
+![Home Screen](home.png)
+
+---
+
 ### Financial Report
 
-![Financial Report](assets/report.png)
+![Financial Report](financial_report.png)
 
 ---
 

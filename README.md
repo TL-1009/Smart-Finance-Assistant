@@ -1,237 +1,321 @@
-# 🚀 Featured Project
+# Smart Finance Assistant 💰
 
-# 💰 Smart Finance Assistant
+A web-based **Financial Health Analyzer** that helps users understand their financial position through income and expense analysis, savings evaluation, investment planning, emergency-fund estimation, financial goals, budget optimization, and long-term wealth simulation.
 
-An AI-powered personal finance application built in **Python** that helps users analyze their financial health, optimize spending, forecast long-term wealth, and make smarter investment decisions.
-
-  ---
-# Workflow
-
-Input
-
-↓
-
-Budget Analysis
-
-↓
-
-Goal Planning
-
-↓
-
-Investment Analysis
-
-↓
-
-Monte Carlo
-
-↓
-
-Optimization
-
-↓
-
-Trend Analysis
-
-↓
-
-Report
+🌐 **Live Demo:** https://smart-finance-assistant-3goy.onrender.com/
 
 ---
 
+## 📌 Overview
 
-## 📊 Project Highlights
+**Smart Finance Assistant** is a personal-finance analysis tool designed to turn basic financial information into actionable insights.
 
-| Feature | Description |
-|---------|-------------|
-| 💻 Language | Python   |
-| 📈 Financial Health Score | Calculates a personalized score (0–100) |
-| 🎯 Goal Planning | Tracks progress towards financial goals |
-| 📊 Monte Carlo Simulation | 1000-run 10-year wealth forecast |
-| ⚡ Budget Optimization | Linear Programming using SciPy |
-| 📉 Trend Analysis | Savings history visualization using Matplotlib |
-| 📄 Report Generation | Automatic financial report export |
-| 💾 Data Storage | CSV-based financial history |
+Users can enter their income, recurring expenses, housing costs, lifestyle spending, loan commitments, investments, and financial goals. The application analyzes this information and generates a personalized financial snapshot.
+
+The project combines a **Flask backend** with an interactive **HTML/CSS/JavaScript frontend**, along with numerical optimization and simulation techniques for deeper financial analysis.
 
 ---
 
-# 📸 Project Demo
+## ✨ Key Features
 
-## 📸 Screenshots
+### 📊 Financial Health Analysis
 
-### Home Screen
+* Calculates a financial health score
+* Evaluates savings and spending patterns
+* Categorizes financial status as:
 
-![Home Screen](home.png)
+  * **Good**
+  * **Moderate**
+  * **Risky**
+* Provides personalized financial insights
 
----
+### 💸 Expense Analysis
 
-### Financial Report
+Users can account for expenses such as:
 
-![Financial Report](financial_report.png)
+* Housing / rent
+* Food & groceries
+* Travel
+* Medical expenses
+* Miscellaneous spending
+* Home-loan EMI
 
----
+The application analyzes the relationship between income, expenses, and savings.
 
-### Savings Trend
+### 🏦 Emergency Fund Planning
 
-![Savings Trend Analysis](Savings%20Trend.png)
+Estimates the recommended emergency fund based on monthly expenses.
 
-Income:
-₹120000
+The current model uses a **6-month expense benchmark** for emergency-fund planning.
 
-Expenses:
-₹106602
+### 📈 Investment Planning
 
-Savings:
-₹13398
+The application provides guidance around different investment categories, including:
 
-Status:
-GOOD
+* Fixed deposits
+* Debt-oriented investments
+* SIPs
+* Index investments
+* Stocks
 
-Financial Score:
-82/100
+### 🎯 Financial Goals
 
----
+Users can define financial goals and evaluate their financial position in relation to those goals.
 
-### Monte Carlo Wealth Forecast
+### 🔮 Monte Carlo Wealth Forecast
 
-The application performs 1000 Monte Carlo simulations using randomly sampled inflation, salary growth and market return distributions to estimate future wealth instead of relying on a fixed CAGR.
+The application uses simulation-based forecasting to visualize possible long-term wealth outcomes.
 
-![Monte Carlo](Monte%20Carlo%20Wealth%20Forecast.png)
+A **10-year Monte Carlo simulation** is used to demonstrate how different investment outcomes can affect future wealth.
 
----
+### ⚙️ Budget Optimization
 
-### Budget Optimization
+The application uses **SciPy optimization** to analyze spending allocations and identify potential budget improvements.
 
-The optimizer uses scipy.optimize.linprog to maximize monthly savings while satisfying minimum expenditure constraints for groceries, food, travel, healthcare and miscellaneous expenses.
+### 📜 Financial Reports
 
-![Optimization](Budget%20Optimization.png)
+Users can generate a financial report based on their inputs.
 
-Budget Allocation
+### 📂 Financial History
 
-🥦 32%
-
-🍔 28%
-
-🚗 18%
-
-🏥 12%
-
-📦 10%
-
----
-
-# ✨ Features
-
-- 📊 Calculates Financial Health Score (0–100)
-- 💰 Intelligent Budget Analysis
-- 🎯 Financial Goal Planning
-- 🏦 EMI Calculator
-- 🛟 Emergency Fund Recommendation
-- 📈 Personalized Investment Advisory
-- 🎲 Monte Carlo Wealth Simulation (10-Year Forecast)
-- ⚡ Budget Optimization using Linear Programming (SciPy)
-- 📉 Savings Trend Analysis with Data Visualization
-- 💾 Financial History Tracking (CSV Database)
-- 📄 Automatic Financial Report Generation
-- 💻 Interactive Command-Line Interface
+Financial data can be recorded and analyzed over time, allowing users to observe changes in their financial position.
 
 ---
 
-# 🛠 Technologies Used
+## 🛠️ Tech Stack
 
-- Python 
-- NumPy
-- SciPy
-- Matplotlib
-- CSV
-- Git
-- GitHub
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
+### Backend
+
+* Python
+* Flask
+
+### Data & Analysis
+
+* SciPy
+* CSV
+* Mathematical modelling
+* Monte Carlo simulation
+* Linear programming / optimization
+
+### Deployment
+
+* GitHub
+* Render
+* Gunicorn
 
 ---
 
-# 🧠 Concepts Demonstrated
+## 🧠 How It Works
 
-- Financial Modeling
-- Budget Analysis
-- Monte Carlo Simulation
-- Linear Programming
-- Optimization Algorithms
-- Data Visualization
-- File Handling
-- Report Generation
-- Financial Forecasting
-
----
-# Project Statistics
-- 1000+ Lines of Python
-- 10+ Financial Modules
-- 1000 Monte Carlo Simulations
-- Linear Programming Optimizer
-- CSV Database
-- Financial Scoring Engine
----
-
-
-# 📂 Repository Structure
+The application follows a simple pipeline:
 
 ```text
-Smart-Finance-Assistant
-│
-├── main.py
-├── README.md
-├── requirements.txt
-├── LICENSE
-├── Savings Trend.png
-├── financial_report.png
-├── Budget Optimization.png
-├── Monte Carlo Wealth Forecast.png
-├── home.png
-└── .gitignore
+User Financial Inputs
+        ↓
+Income & Expense Analysis
+        ↓
+Savings & Financial Health Calculation
+        ↓
+Financial Risk Evaluation
+        ↓
+Investment & Emergency Fund Analysis
+        ↓
+Budget Optimization
+        ↓
+Long-Term Wealth Simulation
+        ↓
+Personalized Financial Insights
 ```
 
 ---
 
-# 🚀 Installation
+## 📁 Project Structure
 
-Clone the repository
+```text
+Smart-Finance-Assistant/
+│
+├── app.py
+├── main.py
+├── index.html
+├── style.css
+├── requirements.txt
+├── .gitignore
+│
+├── assets/
+│   ├── financial_report.png
+│   └── home.png
+│
+├── Budget Optimization.png
+├── Monte Carlo Wealth Forecast.png
+├── Savings Trend.png
+│
+└── README.md
+```
+
+### File Overview
+
+| File               | Purpose                                             |
+| ------------------ | --------------------------------------------------- |
+| `app.py`           | Flask backend and financial-analysis logic          |
+| `main.py`          | Earlier command-line implementation                 |
+| `index.html`       | Web application interface                           |
+| `style.css`        | Website styling                                     |
+| `requirements.txt` | Python dependencies                                 |
+| `assets/`          | Project images and visual assets                    |
+| `.gitignore`       | Prevents generated/local files from being committed |
+
+---
+
+## 🚀 Running Locally
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/TL-1009/Smart-Finance-Assistant.git
-```
-
-Move into the project folder
-
-```bash
 cd Smart-Finance-Assistant
 ```
 
-Install dependencies
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+### 3. Activate the environment
+
+**Windows:**
+
+```bash
+venv\Scripts\activate
+```
+
+**macOS / Linux:**
+
+```bash
+source venv/bin/activate
+```
+
+### 4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the project
+### 5. Start the application
 
 ```bash
-python main.py
+python app.py
 ```
----
 
-# 📜 License
+The application will run locally at:
 
-This project is licensed under the **MIT License**.
-
-Educational Project
-
-This project is intended for educational purposes and should not be treated as professional financial advice.
+```text
+http://127.0.0.1:5000
+```
 
 ---
 
-# 👩‍💻 Author
+## 🌐 Live Deployment
+
+The current web application is deployed using **Render**.
+
+### Production start command
+
+```bash
+gunicorn app:app
+```
+
+### Build command
+
+```bash
+pip install -r requirements.txt
+```
+
+### Live application
+
+🌐 **https://smart-finance-assistant-3goy.onrender.com/**
+
+> The application currently uses Render's free instance. The service may temporarily spin down after periods of inactivity, which can cause a delay when the application is opened for the first time.
+
+---
+
+## 📊 Screenshots
+
+### Financial Health Analyzer
+
+### Financial Report
+
+### Budget Optimization
+
+### Monte Carlo Wealth Forecast
+
+### Savings Trend
+
+---
+
+## 🔐 Data & Privacy
+
+The project is designed as a personal-finance analysis tool.
+
+Generated files such as:
+
+```text
+finance_data.csv
+financial_report.txt
+```
+
+are excluded from version control through `.gitignore`.
+
+Users should avoid entering sensitive information such as:
+
+* Bank account numbers
+* Card numbers
+* Passwords
+* OTPs
+* Banking credentials
+
+---
+
+## 🔮 Future Enhancements
+
+Potential improvements include:
+
+* [ ] User authentication
+* [ ] Persistent database storage
+* [ ] Interactive financial dashboards
+* [ ] More advanced investment modelling
+* [ ] Tax-aware financial planning
+* [ ] Inflation-adjusted projections
+* [ ] Portfolio risk analysis
+* [ ] Additional financial goals
+* [ ] Automated financial recommendations
+* [ ] Mobile-responsive improvements
+* [ ] Cloud database integration
+
+---
+
+## ⚠️ Disclaimer
+
+This project is intended for **educational and informational purposes**.
+
+The financial insights generated by the application should not be considered professional investment, tax, legal, or financial advice. Users should consult qualified professionals before making significant financial decisions.
+
+---
+
+## 👩‍💻 Author
 
 **Tisya Lall**
 
 GitHub: https://github.com/TL-1009
 
 ---
+
+## ⭐ Project
+
+**Smart Finance Assistant — turning financial data into understandable insights.**

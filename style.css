@@ -1,0 +1,973 @@
+/* ==========================================================================
+   Smart Finance Assistant 
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+
+/* ================================= Variables ================================= */
+
+:root {
+  --paper: #EEF2E7;
+  --paper-raised: #F6F8F1;
+  --paper-line: #C3D0B8;
+
+  --ink: #1C2A20;
+  --ink-soft: #4C5D4E;
+
+  --green: #2F6B4F;
+  --green-deep: #204936;
+
+  --rust: #B5482D;
+  --gold: #B9922F;
+
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  --max-width: 1080px;
+  --radius: 2px;
+}
+
+
+/* ================================= Base ================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--green-deep);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  color: var(--ink);
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p {
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--green-deep);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.6rem;
+}
+
+
+/* ================================= Sections ================================= */
+
+.navbar,
+.hero,
+.features-section,
+.calculator-section,
+.about-section,
+footer {
+  border-bottom: 1px solid var(--paper-line);
+}
+
+
+/* ================================= Navbar ================================= */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1.1rem clamp(1.25rem, 4vw, 3.5rem);
+
+  background-color: var(--paper-raised);
+
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.logo {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.25rem);
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+
+  text-decoration: none;
+  color: var(--ink-soft);
+
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  color: var(--green-deep);
+  border-bottom-color: var(--green-deep);
+}
+
+
+/* ================================= Hero ================================= */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+
+  gap: clamp(2rem, 5vw, 4rem);
+
+  align-items: center;
+
+  max-width: var(--max-width);
+
+  margin: 0 auto;
+
+  padding:
+    clamp(3rem, 8vw, 6rem)
+    clamp(1.25rem, 4vw, 3.5rem);
+}
+
+.hero-content h1 {
+  font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+
+  line-height: 1.15;
+
+  margin: 0 0 1.1rem;
+}
+
+.hero-description {
+  max-width: 42ch;
+
+  font-size: 1.02rem;
+
+  margin-bottom: 1.9rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+
+  padding: 0.85rem 1.4rem;
+
+  border-radius: var(--radius);
+
+  text-decoration: none;
+
+  display: inline-block;
+
+  transition:
+    transform 0.12s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.primary-btn {
+  background-color: var(--green-deep);
+  color: var(--paper-raised);
+
+  border: 1px solid var(--green-deep);
+}
+
+.primary-btn:hover,
+.primary-btn:focus-visible {
+  background-color: var(--green);
+
+  transform: translateY(-1px);
+}
+
+.secondary-btn {
+  background-color: transparent;
+
+  color: var(--ink);
+
+  border: 1px solid var(--paper-line);
+}
+
+.secondary-btn:hover,
+.secondary-btn:focus-visible {
+  border-color: var(--ink-soft);
+}
+
+
+/* ================================= Hero Card ================================= */
+
+.hero-card {
+  background-color: var(--paper-raised);
+
+  border: 1px solid var(--paper-line);
+
+  border-radius: var(--radius);
+
+  padding: 1.75rem;
+
+  position: relative;
+}
+
+.hero-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 8px;
+
+  border: 1px dashed var(--paper-line);
+
+  pointer-events: none;
+}
+
+.card-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+
+  color: var(--ink-soft);
+
+  margin-bottom: 1.4rem;
+}
+
+.card-header .status {
+  color: var(--green-deep);
+}
+
+.score {
+  font-family: var(--font-mono);
+
+  font-size: 3.2rem;
+
+  font-weight: 600;
+
+  color: var(--ink);
+
+  line-height: 1;
+
+  margin-bottom: 1rem;
+}
+
+.score span {
+  font-size: 1.1rem;
+
+  color: var(--ink-soft);
+
+  font-weight: 400;
+}
+
+.progress-bar {
+  width: 100%;
+
+  height: 6px;
+
+  background-color: var(--paper-line);
+
+  border-radius: 3px;
+
+  overflow: hidden;
+
+  margin-bottom: 1.6rem;
+}
+
+.progress-bar .progress {
+  width: 82%;
+
+  height: 100%;
+
+  background-color: var(--green);
+}
+
+.card-stats {
+  display: flex;
+
+  justify-content: space-between;
+
+  border-top: 1px solid var(--paper-line);
+
+  padding-top: 1.1rem;
+
+  gap: 1rem;
+}
+
+.card-stats p {
+  font-family: var(--font-mono);
+
+  font-size: 0.75rem;
+
+  margin-bottom: 0.35rem;
+}
+
+.card-stats h3 {
+  font-family: var(--font-mono);
+
+  font-size: 1.15rem;
+
+  color: var(--green-deep);
+}
+
+
+/* ================================= Section Heading ================================= */
+
+.section-heading {
+  max-width: 640px;
+
+  margin: 0 auto 3rem;
+
+  text-align: left;
+
+  padding:
+    0
+    clamp(1.25rem, 4vw, 3.5rem);
+}
+
+.section-heading h2 {
+  font-size: clamp(1.6rem, 3vw, 2.15rem);
+
+  margin: 0.4rem 0 0.75rem;
+}
+
+
+/* ================================= Features ================================= */
+
+.features-section {
+  max-width: var(--max-width);
+
+  margin: 0 auto;
+
+  padding:
+    clamp(3rem, 7vw, 5rem)
+    0
+    clamp(4rem, 8vw, 6rem);
+}
+
+.features-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  border-top: 1px solid var(--paper-line);
+  border-left: 1px solid var(--paper-line);
+
+  margin:
+    0
+    clamp(1.25rem, 4vw, 3.5rem);
+}
+
+.feature-card {
+  padding: 2rem 1.75rem;
+
+  border-right: 1px solid var(--paper-line);
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.feature-icon {
+  font-size: 1.4rem;
+
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  font-size: 1.05rem;
+
+  margin-bottom: 0.6rem;
+}
+
+.feature-card p {
+  font-size: 0.92rem;
+}
+
+
+/* ================================= Calculator ================================= */
+
+.calculator-section {
+  background-color: var(--paper-raised);
+
+  padding:
+    clamp(3rem, 7vw, 5rem)
+    0;
+}
+
+.calculator-container {
+  max-width: var(--max-width);
+
+  margin: 0 auto;
+
+  padding:
+    0
+    clamp(1.25rem, 4vw, 3.5rem);
+
+  display: grid;
+
+  grid-template-columns: 0.9fr 1.1fr;
+
+  gap: clamp(1.75rem, 4vw, 3rem);
+
+  align-items: stretch;
+}
+
+
+/* ================================= Input Card ================================= */
+
+.input-card {
+  border: 1px solid var(--paper-line);
+
+  border-radius: var(--radius);
+
+  padding: 1.9rem;
+
+  background-color: var(--paper);
+}
+
+.input-card label {
+  display: block;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.78rem;
+
+  color: var(--ink-soft);
+
+  margin:
+    1.1rem 0
+    0.4rem;
+}
+
+.input-card label:first-child {
+  margin-top: 0;
+}
+
+.input-card input {
+  width: 100%;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.95rem;
+
+  padding: 0.7rem 0.8rem;
+
+  border: 1px solid var(--paper-line);
+
+  border-radius: var(--radius);
+
+  background-color: var(--paper-raised);
+
+  color: var(--ink);
+}
+
+.input-card input:focus {
+  border-color: var(--green);
+
+  outline: none;
+}
+
+.input-card input::placeholder {
+  color: #9AAA93;
+}
+
+.input-card button {
+  margin-top: 1.6rem;
+
+  width: 100%;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.9rem;
+
+  padding: 0.85rem;
+
+  background-color: var(--green-deep);
+
+  color: var(--paper-raised);
+
+  border: none;
+
+  border-radius: var(--radius);
+
+  cursor: pointer;
+
+  transition: background-color 0.15s ease;
+}
+
+.input-card button:hover,
+.input-card button:focus-visible {
+  background-color: var(--green);
+}
+
+.input-card .field-error {
+  font-family: var(--font-mono);
+
+  font-size: 0.78rem;
+
+  color: var(--rust);
+
+  margin-top: 0.9rem;
+
+  display: none;
+}
+
+.input-card .field-error.visible {
+  display: block;
+}
+
+
+/* ================================= Result Card ================================= */
+
+.result-card {
+  border: 1px solid var(--paper-line);
+
+  border-radius: var(--radius);
+
+  padding: 1.9rem 2rem;
+
+  background-color: var(--paper);
+
+  min-height: 100%;
+}
+
+.result-card h3 {
+  font-size: 1.05rem;
+
+  margin-bottom: 1.2rem;
+
+  padding-bottom: 1rem;
+
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.result-placeholder {
+  font-size: 0.95rem;
+}
+
+.result-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: baseline;
+
+  gap: 1rem;
+
+  padding: 0.55rem 0;
+
+  border-bottom: 1px dotted var(--paper-line);
+
+  font-family: var(--font-mono);
+
+  font-size: 0.88rem;
+}
+
+.result-row:last-of-type {
+  border-bottom: none;
+}
+
+.result-row .label {
+  color: var(--ink-soft);
+}
+
+.result-row .value {
+  color: var(--ink);
+
+  font-weight: 500;
+
+  text-align: right;
+}
+
+.result-row .value.negative {
+  color: var(--rust);
+}
+
+.result-row .value.positive {
+  color: var(--green-deep);
+}
+
+
+/* ================================= Result Score ================================= */
+
+.result-score-line {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 0.75rem;
+
+  margin:
+    1.3rem 0
+    0.5rem;
+}
+
+.result-score-line .big-score {
+  font-family: var(--font-mono);
+
+  font-size: 2.4rem;
+
+  font-weight: 600;
+
+  color: var(--gold);
+
+  line-height: 1;
+}
+
+.result-status {
+  font-family: var(--font-mono);
+
+  font-size: 0.85rem;
+
+  padding: 0.25rem 0.6rem;
+
+  border-radius: var(--radius);
+
+  border: 1px solid currentColor;
+}
+
+.result-status.good {
+  color: var(--green-deep);
+}
+
+.result-status.moderate {
+  color: var(--gold);
+}
+
+.result-status.risky {
+  color: var(--rust);
+}
+
+
+/* ================================= Result Bar ================================= */
+
+.result-bar-track {
+  width: 100%;
+
+  height: 8px;
+
+  background-color: var(--paper-line);
+
+  border-radius: 4px;
+
+  overflow: hidden;
+
+  margin:
+    0.3rem 0
+    1.3rem;
+}
+
+.result-bar-fill {
+  height: 100%;
+
+  background-color: var(--green);
+
+  transition: width 0.4s ease;
+}
+
+
+/* ================================= Result Notes ================================= */
+
+.result-notes {
+  margin-top: 1.2rem;
+
+  padding-top: 1.1rem;
+
+  border-top: 1px solid var(--paper-line);
+}
+
+.result-notes p {
+  font-family: var(--font-mono);
+
+  font-size: 0.76rem;
+
+  color: var(--ink-soft);
+
+  margin-bottom: 0.5rem;
+
+  letter-spacing: 0.02em;
+}
+
+.result-notes ul {
+  margin: 0;
+
+  padding-left: 1.1rem;
+
+  font-size: 0.92rem;
+}
+
+.result-notes li {
+  margin-bottom: 0.4rem;
+
+  color: var(--ink);
+}
+
+
+/* ================================= About ================================= */
+
+.about-section {
+  max-width: 720px;
+
+  margin: 0 auto;
+
+  padding:
+    clamp(3.5rem, 8vw, 5.5rem)
+    clamp(1.25rem, 4vw, 3.5rem);
+
+  text-align: left;
+}
+
+.about-section h2 {
+  font-size: clamp(1.5rem, 2.8vw, 1.9rem);
+
+  margin-bottom: 1.2rem;
+}
+
+.about-section p:not(.tag) {
+  margin-bottom: 1rem;
+
+  font-size: 1rem;
+}
+
+
+/* ================================= Footer ================================= */
+
+footer {
+  border-bottom: none;
+
+  text-align: center;
+
+  padding: 1.75rem;
+}
+
+footer p {
+  font-family: var(--font-mono);
+
+  font-size: 0.8rem;
+
+  color: var(--ink-soft);
+
+  margin: 0;
+}
+
+
+/* ================================= Responsive ================================= */
+
+@media (max-width: 860px) {
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .calculator-container {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 560px) {
+
+  .navbar {
+    flex-direction: column;
+
+    gap: 0.75rem;
+
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+
+    gap: 0.8rem 1.2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    text-align: center;
+  }
+
+  .card-stats {
+    flex-direction: column;
+  }
+
+  .result-row {
+    align-items: flex-start;
+  }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  * {
+    transition: none !important;
+
+    scroll-behavior: auto !important;
+  }
+
+}
+
+/* =========================================================
+   SMART FINANCE BUTTONS
+========================================================= */
+
+button,
+.primary-btn,
+.secondary-btn {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+/* Main action button */
+
+button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 15px 22px;
+
+    border: 2px solid var(--green-deep);
+    border-radius: 3px;
+
+    background: var(--green-deep);
+    color: white;
+
+    font-size: 0.88rem;
+
+    box-shadow:
+        4px 4px 0 var(--paper-line);
+}
+
+
+button:hover {
+    transform: translate(-2px, -2px);
+
+    box-shadow:
+        7px 7px 0 var(--paper-line);
+
+    background: var(--green);
+}
+
+
+button:active {
+    transform: translate(2px, 2px);
+
+    box-shadow:
+        2px 2px 0 var(--paper-line);
+}
+
+
+/* Hero primary button */
+
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 22px;
+
+    border: 2px solid var(--green-deep);
+    border-radius: 3px;
+
+    background: var(--green-deep);
+    color: white;
+
+    box-shadow:
+        4px 4px 0 var(--paper-line);
+}
+
+
+.primary-btn:hover {
+    transform: translate(-2px, -2px);
+
+    background: var(--green);
+
+    box-shadow:
+        7px 7px 0 var(--paper-line);
+}
+
+
+/* Secondary button */
+
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 22px;
+
+    border: 2px solid var(--green);
+    border-radius: 3px;
+
+    background: transparent;
+    color: var(--green-deep);
+}
+
+
+.secondary-btn:hover {
+    transform: translate(-2px, -2px);
+
+    background: var(--paper-raised);
+
+    box-shadow:
+        4px 4px 0 var(--paper-line);
+}

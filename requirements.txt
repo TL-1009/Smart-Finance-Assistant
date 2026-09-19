@@ -1,2 +1,4 @@
-matplotlib
+Flask
 scipy
+matplotlib
+gunicorn

@@ -1,0 +1,3418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Smart Finance Assistant — personal financial health analysis, goal planning, investment guidance, wealth simulation and budget optimization.">
+
+    <title>Smart Finance Assistant</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Form layout */
+
+        .analysis-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-section {
+            border: 1px solid var(--paper-line);
+            padding: 24px;
+            background: var(--paper-raised);
+        }
+
+        .form-section h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+        }
+
+        .form-description {
+            color: var(--ink-soft);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        button {
+            font-family: inherit;
+        }
+
+        input,
+        select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 14px;
+            border: 1px solid var(--paper-line);
+            background: #fff;
+            color: var(--ink);
+            font-size: 15px;
+            border-radius: 3px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid var(--green);
+            outline-offset: 1px;
+        }
+
+        /* Choice cards */
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .choice-grid.two {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .choice-card {
+            position: relative;
+        }
+
+        .choice-card input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .choice-card label {
+            display: block;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 17px;
+            border: 1px solid var(--paper-line);
+            background: white;
+            cursor: pointer;
+            transition: 0.18s ease;
+        }
+
+        .choice-card label:hover {
+            border-color: var(--green);
+            transform: translateY(-2px);
+        }
+
+        .choice-card input:checked + label {
+            border: 2px solid var(--green);
+            background: #edf4ed;
+            box-shadow: 0 4px 12px rgba(32, 73, 54, 0.08);
+        }
+
+        .choice-title {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .choice-description {
+            display: block;
+            color: var(--ink-soft);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Conditional areas */
+
+        .conditional {
+            display: none;
+            margin-top: 18px;
+            padding: 18px;
+            border-left: 3px solid var(--green);
+            background: rgba(255,255,255,0.65);
+        }
+
+        .conditional.visible {
+            display: block;
+        }
+
+        .explanation-box {
+            margin-top: 18px;
+            padding: 16px;
+            border-left: 3px solid var(--gold);
+            background: #faf7ed;
+        }
+
+        .explanation-box strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .small-note {
+            color: var(--ink-soft);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .small-note ul {
+            margin: 6px 0 0;
+            padding-left: 18px;
+        }
+
+        .fd-reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-family: var(--font-mono, monospace);
+            font-size: 13px;
+        }
+
+        .fd-reference-table th,
+        .fd-reference-table td {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--paper-line, #C3D0B8);
+        }
+
+        .fd-reference-table th {
+            color: var(--ink-soft);
+            font-weight: 600;
+        }
+
+        .fd-reference-table td:not(:first-child),
+        .fd-reference-table th:not(:first-child) {
+            text-align: right;
+        }
+
+        /* Main button */
+
+        .analyze-button {
+            width: 100%;
+            padding: 16px 24px;
+            border: 0;
+            border-radius: 4px;
+            background: var(--green-deep);
+            color: white;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--green);
+            transition: 0.15s ease;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--green);
+        }
+
+        .analyze-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--green);
+        }
+
+        .analyze-button:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        /* Errors */
+
+        .error-message {
+            display: none;
+            padding: 12px 14px;
+            border-left: 3px solid var(--rust);
+            background: #fff0ec;
+            color: var(--rust);
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        /* Results */
+
+        .result-card.loading {
+            opacity: 0.65;
+        }
+
+        .report-section {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid var(--paper-line);
+        }
+
+        .report-section h4 {
+            margin: 0 0 12px;
+            font-size: 18px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .metric {
+            padding: 13px;
+            border: 1px solid var(--paper-line);
+            background: rgba(255,255,255,0.65);
+        }
+
+        .metric span {
+            display: block;
+            color: var(--ink-soft);
+            font-size: 13px;
+        }
+
+        .metric strong {
+            display: block;
+            margin-top: 5px;
+            font-size: 18px;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .score-number {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-good {
+            background: #dceedd;
+            color: #245c31;
+        }
+
+        .status-moderate {
+            background: #f8edc9;
+            color: #775d14;
+        }
+
+        .status-risky {
+            background: #f5d9d1;
+            color: #8b301d;
+        }
+
+        .result-progress {
+            height: 9px;
+            margin: 10px 0 18px;
+            background: #dce3d8;
+        }
+
+        .result-progress-fill {
+            height: 100%;
+            background: var(--green);
+        }
+
+        .report-list {
+            padding-left: 20px;
+            line-height: 1.7;
+        }
+
+        .portfolio-item,
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 9px 0;
+            border-bottom: 1px dashed var(--paper-line);
+        }
+
+        .download-button {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 18px;
+            background: var(--green);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid,
+            .metric-grid,
+            .choice-grid,
+            .choice-grid.two {
+                grid-template-columns: 1fr;
+            }
+
+            .form-section {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Smart Finance
+        </div>
+
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#calculator">Analyze Finance</a>
+            <a href="#about">About</a>
+        </div>
+
+    </nav>
+
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="tag">
+                SMART PERSONAL FINANCE ANALYSIS
+            </p>
+
+            <h1>
+                Understand Your Money.<br>
+                Build Your Future.
+            </h1>
+
+            <p class="hero-description">
+                Smart Finance Assistant helps you understand your
+                financial health, analyze spending, plan goals,
+                evaluate investment risk and explore long-term wealth.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#calculator" class="primary-btn">
+                    Analyze My Finances →
+                </a>
+
+                <a href="#features" class="secondary-btn">
+                    Explore Features
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="card-header">
+                <span>Financial Health Score</span>
+                <span class="status">● Example</span>
+            </div>
+
+            <div class="score">
+                82
+                <span>/100</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+
+            <div class="card-stats">
+
+                <div>
+                    <p>Savings Rate</p>
+                    <h3>44%</h3>
+                </div>
+
+                <div>
+                    <p>Financial Status</p>
+                    <h3>Healthy</h3>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section id="features" class="features-section">
+
+        <div class="section-heading">
+
+            <p class="tag">
+                WHAT THE SYSTEM DOES
+            </p>
+
+            <h2>
+                Your Complete Financial Toolkit
+            </h2>
+
+            <p>
+                A financial analysis system combining mathematical
+                modelling, data analysis, simulation, optimization
+                and personalized insights.
+            </p>
+
+        </div>
+
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Financial Health Analysis</h3>
+                <p>
+                    Calculates a personalized financial health score
+                    using income, expenses, savings and EMI commitments.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Goal Planning</h3>
+                <p>
+                    Estimates the time required to reach financial
+                    goals based on current savings capacity.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Wealth Forecasting</h3>
+                <p>
+                    Uses Monte Carlo simulation to explore possible
+                    long-term wealth outcomes.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Budget Optimization</h3>
+                <p>
+                    Uses linear programming to identify an optimized
+                    lifestyle budget allocation.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📉</div>
+                <h3>Savings Analysis</h3>
+                <p>
+                    Stores financial sessions and identifies changes
+                    in savings behaviour over time.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Investment Guidance</h3>
+                <p>
+                    Provides educational investment guidance based
+                    on savings capacity and selected risk level.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💹</div>
+                <h3>SIP Calculator</h3>
+                <p>
+                    Projects the future value of a monthly SIP over
+                    a chosen duration, using a return estimate tied
+                    to your risk preference.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🗂️</div>
+                <h3>Investment Categories</h3>
+                <p>
+                    Breaks each recommendation down into real fund
+                    and instrument categories — never a single stock
+                    pick, since those go stale immediately.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏦</div>
+                <h3>FD Rate Reference</h3>
+                <p>
+                    Compares indicative fixed deposit rates across
+                    major banks and Post Office schemes for quick
+                    reference.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏡</div>
+                <h3>Home Loan Benefits Note</h3>
+                <p>
+                    Surfaces the stamp duty and interest rate
+                    concessions available to women home buyers in
+                    India, where applicable.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section id="calculator" class="calculator-section">
+
+        <div class="section-heading">
+
+            <p class="tag">
+                FINANCIAL HEALTH ANALYZER
+            </p>
+
+            <h2>
+                Complete Financial Analysis
+            </h2>
+
+            <p>
+                Enter your financial information below to run
+                the complete Smart Finance Assistant analysis.
+            </p>
+
+        </div>
+
+
+        <div class="calculator-container">
+
+
+            <div class="input-card">
+
+                <form id="financeForm" class="analysis-form">
+
+
+                    <!-- USER PROFILE -->
+
+                    <div class="form-section">
+
+                        <h3>🧾 User Profile</h3>
+
+                        <p class="form-description">
+                            Enter your basic financial information.
+                        </p>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label for="name">
+                                    Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    placeholder="Enter your name"
+                                    required
+                                >
+
+                            </div>
+
+                            <div class="form-group full">
+
+                                <label>
+                                    Income Period
+                                </label>
+
+                                <div class="choice-grid two">
+
+                                    <div class="choice-card">
+
+                                        <input
+                                            type="radio"
+                                            name="incomePeriod"
+                                            id="incomePeriodMonthly"
+                                            value="monthly"
+                                            checked
+                                        >
+
+                                        <label for="incomePeriodMonthly">
+                                            <span class="choice-title">
+                                                Monthly
+                                            </span>
+                                        </label>
+
+                                    </div>
+
+                                    <div class="choice-card">
+
+                                        <input
+                                            type="radio"
+                                            name="incomePeriod"
+                                            id="incomePeriodAnnual"
+                                            value="annual"
+                                        >
+
+                                        <label for="incomePeriodAnnual">
+                                            <span class="choice-title">
+                                                Annual
+                                            </span>
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="incomeAmount" id="incomeAmountLabel">
+                                    Monthly Income (₹)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="incomeAmount"
+                                    placeholder="Example: 100000"
+                                    min="1"
+                                    step="1"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MODE -->
+
+                    <div class="form-section">
+
+                        <h3>📘 Input Mode</h3>
+
+                        <p class="form-description">
+                            Simple Mode estimates lifestyle expenses.
+                            Advanced Mode lets you enter exact amounts.
+                        </p>
+
+                        <div class="choice-grid two">
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="mode"
+                                    id="modeSimple"
+                                    value="simple"
+                                    checked
+                                >
+
+                                <label for="modeSimple">
+
+                                    <span class="choice-title">
+                                        🟢 Simple Mode
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Choose Low, Medium or High
+                                        spending intensity.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="mode"
+                                    id="modeAdvanced"
+                                    value="advanced"
+                                >
+
+                                <label for="modeAdvanced">
+
+                                    <span class="choice-title">
+                                        🧾 Advanced Mode
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Enter exact ₹ values for
+                                        each lifestyle category.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="explanation-box">
+
+                            <strong>
+                                Understanding spending levels
+                            </strong>
+
+                            <div class="small-note">
+
+                                <b>LOW:</b>
+                                Controlled spending habits.
+
+                                <br>
+
+                                <b>MEDIUM:</b>
+                                Balanced spending habits.
+
+                                <br>
+
+                                <b>HIGH:</b>
+                                Lifestyle-heavy spending habits.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RISK -->
+
+                    <div class="form-section">
+
+                        <h3>📈 Investment Risk Preference</h3>
+
+                        <p class="form-description">
+                            Select the level of risk you are comfortable with.
+                        </p>
+
+                        <div class="choice-grid">
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="risk"
+                                    id="riskLow"
+                                    value="low"
+                                    checked
+                                >
+
+                                <label for="riskLow">
+
+                                    <span class="choice-title">
+                                        🟢 Low Risk
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Focuses on stability and
+                                        lower volatility.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="risk"
+                                    id="riskMedium"
+                                    value="medium"
+                                >
+
+                                <label for="riskMedium">
+
+                                    <span class="choice-title">
+                                        🟡 Medium Risk
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Balances stability and
+                                        growth potential.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="risk"
+                                    id="riskHigh"
+                                    value="high"
+                                >
+
+                                <label for="riskHigh">
+
+                                    <span class="choice-title">
+                                        🔴 High Risk
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Accepts higher volatility
+                                        for growth potential.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SIP CALCULATOR (optional) -->
+
+                    <div class="form-section">
+
+                        <h3>💹 SIP Calculator (optional)</h3>
+
+                        <p class="form-description">
+                            Want to see what a monthly SIP could grow into?
+                            Fill this in, or leave it blank to skip it.
+                            The expected return used is based on your risk
+                            preference above — it's a planning estimate,
+                            not a guaranteed return.
+                        </p>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label for="sipAmount">
+                                    Monthly SIP Amount (₹)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="sipAmount"
+                                    placeholder="Example: 5000"
+                                    min="0"
+                                    step="1"
+                                >
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="sipYears">
+                                    Investment Duration (Years)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="sipYears"
+                                    placeholder="Example: 10"
+                                    min="0"
+                                    step="1"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GOAL -->
+
+                    <div class="form-section">
+
+                        <h3>🎯 Financial Goal</h3>
+
+                        <p class="form-description">
+                            Choose a preset goal or create your own.
+                        </p>
+
+                        <div class="choice-grid two">
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="goalType"
+                                    id="presetGoal"
+                                    value="preset"
+                                    checked
+                                >
+
+                                <label for="presetGoal">
+
+                                    <span class="choice-title">
+                                        🎯 Preset Goal
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Emergency fund, car,
+                                        house or retirement.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="goalType"
+                                    id="customGoal"
+                                    value="custom"
+                                >
+
+                                <label for="customGoal">
+
+                                    <span class="choice-title">
+                                        ✏️ Custom Goal
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Create your own financial goal.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="presetGoalSection"
+                            class="conditional visible"
+                        >
+
+                            <div class="form-group">
+
+                                <label for="goalPreset">
+                                    Select Goal
+                                </label>
+
+                                <select id="goalPreset">
+
+                                    <option value="emergency">
+                                        Emergency Fund — ₹1,00,000
+                                    </option>
+
+                                    <option value="car">
+                                        Car — ₹5,00,000
+                                    </option>
+
+                                    <option value="house">
+                                        House — ₹50,00,000
+                                    </option>
+
+                                    <option value="retirement">
+                                        Retirement — ₹1,00,00,000
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="customGoalSection"
+                            class="conditional"
+                        >
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+
+                                    <label for="customGoalName">
+                                        Goal Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="customGoalName"
+                                        placeholder="Example: Dream Bike"
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="customGoalAmount">
+                                        Target Amount (₹)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="customGoalAmount"
+                                        min="1"
+                                        step="1"
+                                        placeholder="Example: 250000"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HOUSING -->
+
+                    <div class="form-section">
+
+                        <h3>🏠 Housing</h3>
+
+                        <p class="form-description">
+                            Housing is incorporated into the expense model
+                            just like the original Python application.
+                        </p>
+
+                        <div class="choice-grid">
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="housing"
+                                    id="housingPG"
+                                    value="pg"
+                                    checked
+                                >
+
+                                <label for="housingPG">
+
+                                    <span class="choice-title">
+                                        🏢 PG
+                                    </span>
+
+                                    <span class="choice-description">
+                                        20% of income assumed as
+                                        fixed housing cost.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="housing"
+                                    id="housingRent"
+                                    value="rent"
+                                >
+
+                                <label for="housingRent">
+
+                                    <span class="choice-title">
+                                        🏠 Rent
+                                    </span>
+
+                                    <span class="choice-description">
+                                        35% of income assumed as
+                                        fixed housing cost.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="choice-card">
+
+                                <input
+                                    type="radio"
+                                    name="housing"
+                                    id="housingOwn"
+                                    value="own"
+                                >
+
+                                <label for="housingOwn">
+
+                                    <span class="choice-title">
+                                        🏡 Own Place
+                                    </span>
+
+                                    <span class="choice-description">
+                                        Configure home loan and
+                                        maintenance expenses.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="ownHousingSection"
+                            class="conditional"
+                        >
+
+                            <div class="form-group">
+
+                                <label for="applicantGender">
+                                    Gender (optional — used only to show
+                                    home loan/stamp duty benefit info)
+                                </label>
+
+                                <select id="applicantGender">
+                                    <option value="" selected>
+                                        Prefer not to say
+                                    </option>
+                                    <option value="female">
+                                        Female
+                                    </option>
+                                    <option value="male">
+                                        Male
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Do you have a home loan?
+                                </label>
+
+                                <div class="choice-grid two">
+
+                                    <div class="choice-card">
+
+                                        <input
+                                            type="radio"
+                                            name="homeLoan"
+                                            id="loanYes"
+                                            value="yes"
+                                        >
+
+                                        <label for="loanYes">
+                                            <span class="choice-title">
+                                                Yes
+                                            </span>
+                                        </label>
+
+                                    </div>
+
+
+                                    <div class="choice-card">
+
+                                        <input
+                                            type="radio"
+                                            name="homeLoan"
+                                            id="loanNo"
+                                            value="no"
+                                            checked
+                                        >
+
+                                        <label for="loanNo">
+                                            <span class="choice-title">
+                                                No
+                                            </span>
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                id="loanDetails"
+                                class="conditional"
+                            >
+
+                                <div class="form-grid">
+
+                                    <div class="form-group">
+
+                                        <label for="loanAmount">
+                                            Loan Amount (₹)
+                                        </label>
+
+                                        <input
+                                            type="number"
+                                            id="loanAmount"
+                                            min="0"
+                                            step="1"
+                                            placeholder="Example: 3000000"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="interestRate">
+                                            Interest Rate (%)
+                                        </label>
+
+                                        <input
+                                            type="number"
+                                            id="interestRate"
+                                            min="0"
+                                            step="0.01"
+                                            placeholder="Example: 8.5"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="loanTenure">
+                                            Tenure (Years)
+                                        </label>
+
+                                        <input
+                                            type="number"
+                                            id="loanTenure"
+                                            min="1"
+                                            step="1"
+                                            placeholder="Example: 20"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="form-group"
+                                style="margin-top:20px;"
+                            >
+
+                                <label>
+                                    Do you pay maintenance?
+                                </label>
+
+                                <div class="choice-grid two">
+
+                                    <div class="choice-card">
+
+                                        <input
+                                            type="radio"
+                                            name="maintenance"
+                                            id="maintenanceYes"
+                                            value="yes"
+                                        >
+
+                                        <label for="maintenanceYes">
+                                            <span class="choice-title">
+                                                Yes
+                                            </span>
+                                        </label>
+
+                                    </div>
+
+
+                                    <div class="choice-card">
+
+                                        <input
+                                            type="radio"
+                                            name="maintenance"
+                                            id="maintenanceNo"
+                                            value="no"
+                                            checked
+                                        >
+
+                                        <label for="maintenanceNo">
+                                            <span class="choice-title">
+                                                No
+                                            </span>
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                id="maintenanceDetails"
+                                class="conditional"
+                            >
+
+                                <div class="form-group">
+
+                                    <label for="maintenanceMode">
+                                        Maintenance Type
+                                    </label>
+
+                                    <select id="maintenanceMode">
+
+                                        <option value="fixed">
+                                            Fixed Monthly Amount
+                                        </option>
+
+                                        <option value="estimated">
+                                            Estimated — 3% of income
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div
+                                    id="fixedMaintenance"
+                                    class="form-group"
+                                    style="margin-top:16px;"
+                                >
+
+                                    <label for="maintenanceCost">
+                                        Monthly Maintenance (₹)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="maintenanceCost"
+                                        min="0"
+                                        step="1"
+                                        placeholder="Example: 5000"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LIFESTYLE -->
+
+                    <div class="form-section">
+
+                        <h3>🍽️ Lifestyle Expenses</h3>
+
+                        <p class="form-description">
+                            These are the same five lifestyle categories
+                            used by the original Python application.
+                        </p>
+
+
+                        <div id="simpleLifestyle">
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+
+                                    <label for="travelSimple">
+                                        🚗 Travel
+                                    </label>
+
+                                    <select id="travelSimple">
+
+                                        <option value="low">
+                                            Low
+                                        </option>
+
+                                        <option value="medium" selected>
+                                            Medium
+                                        </option>
+
+                                        <option value="high">
+                                            High
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="grocerySimple">
+                                        🥦 Groceries
+                                    </label>
+
+                                    <select id="grocerySimple">
+
+                                        <option value="low">
+                                            Low
+                                        </option>
+
+                                        <option value="medium" selected>
+                                            Medium
+                                        </option>
+
+                                        <option value="high">
+                                            High
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="foodSimple">
+                                        🍔 Food
+                                    </label>
+
+                                    <select id="foodSimple">
+
+                                        <option value="low">
+                                            Low
+                                        </option>
+
+                                        <option value="medium" selected>
+                                            Medium
+                                        </option>
+
+                                        <option value="high">
+                                            High
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="medicalSimple">
+                                        🏥 Medical
+                                    </label>
+
+                                    <select id="medicalSimple">
+
+                                        <option value="low" selected>
+                                            Low
+                                        </option>
+
+                                        <option value="medium">
+                                            Medium
+                                        </option>
+
+                                        <option value="high">
+                                            High
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="miscSimple">
+                                        📦 Miscellaneous
+                                    </label>
+
+                                    <select id="miscSimple">
+
+                                        <option value="low">
+                                            Low
+                                        </option>
+
+                                        <option value="medium" selected>
+                                            Medium
+                                        </option>
+
+                                        <option value="high">
+                                            High
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="explanation-box">
+
+                                <strong>
+                                    What do these categories include?
+                                </strong>
+
+                                <div class="small-note">
+
+                                    <b>Medical:</b>
+                                    Medicines, doctor visits,
+                                    health checkups, insurance gaps
+                                    and emergency treatment.
+
+                                    <br><br>
+
+                                    <b>Miscellaneous:</b>
+                                    Subscriptions, shopping,
+                                    entertainment, unexpected
+                                    spending and other personal expenses.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="advancedLifestyle"
+                            class="conditional"
+                        >
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+
+                                    <label for="travelAdvanced">
+                                        🚗 Travel (₹)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="travelAdvanced"
+                                        min="0"
+                                        value="0"
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="groceryAdvanced">
+                                        🥦 Groceries (₹)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="groceryAdvanced"
+                                        min="0"
+                                        value="0"
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="foodAdvanced">
+                                        🍔 Food (₹)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="foodAdvanced"
+                                        min="0"
+                                        value="0"
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="medicalAdvanced">
+                                        🏥 Medical (₹)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="medicalAdvanced"
+                                        min="0"
+                                        value="0"
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="miscAdvanced">
+                                        📦 Miscellaneous (₹)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="miscAdvanced"
+                                        min="0"
+                                        value="0"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="analyze-button"
+                        id="analyzeButton"
+                    >
+                        Analyze My Finances →
+                    </button>
+
+
+                    <div
+                        id="inputError"
+                        class="error-message"
+                        role="alert"
+                    ></div>
+
+                </form>
+
+            </div>
+
+
+            <!-- RESULTS -->
+
+            <div
+                class="result-card"
+                id="result"
+                aria-live="polite"
+            >
+
+                <h3>
+                    Your Financial Report
+                </h3>
+
+                <p class="result-placeholder">
+                    Complete the form and click
+                    <b>Analyze My Finances</b>
+                    to generate your full report.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section id="about" class="about-section">
+
+        <p class="tag">
+            ABOUT THE PROJECT
+        </p>
+
+        <h2>
+            Built as a Smart Finance System
+        </h2>
+
+        <p>
+            Smart Finance Assistant is a personal finance analysis
+            project designed to turn financial data into understandable
+            insights.
+        </p>
+
+        <p>
+            The system combines financial modelling, mathematical
+            analysis, Monte Carlo simulation, optimization,
+            historical data storage and a web interface.
+        </p>
+
+        <p>
+            The website acts as the interactive front-end while
+            Python performs the underlying financial analysis.
+        </p>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            Smart Finance Assistant • Built by Tisya Lall
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        function getValue(id) {
+            return document.getElementById(id).value;
+        }
+
+
+        function getNumber(id) {
+
+            const value =
+                parseFloat(getValue(id));
+
+            return Number.isFinite(value)
+                ? value
+                : 0;
+        }
+
+
+        function getRadio(name) {
+
+            const selected =
+                document.querySelector(
+                    'input[name="' + name + '"]:checked'
+                );
+
+            return selected
+                ? selected.value
+                : null;
+        }
+
+
+        function show(id) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+                element.classList.add("visible");
+            }
+
+        }
+
+
+        function hide(id) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+                element.classList.remove("visible");
+            }
+
+        }
+
+
+        function escapeHTML(value) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                value == null ? "" : String(value);
+
+            return div.innerHTML;
+
+        }
+
+
+        function formatRupees(value) {
+
+            return "₹" +
+                Math.round(
+                    Number(value) || 0
+                ).toLocaleString("en-IN");
+
+        }
+
+
+        /* Goal */
+
+        function updateGoalMode() {
+
+            const type =
+                getRadio("goalType");
+
+            if (type === "custom") {
+
+                show("customGoalSection");
+                hide("presetGoalSection");
+
+            } else {
+
+                show("presetGoalSection");
+                hide("customGoalSection");
+
+            }
+
+        }
+
+
+        /* Mode */
+
+        function updateInputMode() {
+
+            const mode =
+                getRadio("mode");
+
+            if (mode === "advanced") {
+
+                hide("simpleLifestyle");
+                show("advancedLifestyle");
+
+            } else {
+
+                show("simpleLifestyle");
+                hide("advancedLifestyle");
+
+            }
+
+        }
+
+
+        /* Housing */
+
+        function updateHousing() {
+
+            const housing =
+                getRadio("housing");
+
+            if (housing === "own") {
+
+                show("ownHousingSection");
+
+            } else {
+
+                hide("ownHousingSection");
+                hide("loanDetails");
+                hide("maintenanceDetails");
+
+            }
+
+        }
+
+
+        /* Home loan */
+
+        function updateLoan() {
+
+            const loan =
+                getRadio("homeLoan");
+
+            if (loan === "yes") {
+
+                show("loanDetails");
+
+            } else {
+
+                hide("loanDetails");
+
+            }
+
+        }
+
+
+        /* Maintenance */
+
+        function updateMaintenance() {
+
+            const maintenance =
+                getRadio("maintenance");
+
+            if (maintenance === "yes") {
+
+                show("maintenanceDetails");
+
+            } else {
+
+                hide("maintenanceDetails");
+
+            }
+
+        }
+
+
+        function updateMaintenanceMode() {
+
+            const mode =
+                getValue("maintenanceMode");
+
+            if (mode === "fixed") {
+
+                show("fixedMaintenance");
+
+            } else {
+
+                hide("fixedMaintenance");
+
+            }
+
+        }
+
+
+        /* Income period */
+
+        function updateIncomePeriod() {
+
+            const period =
+                getRadio("incomePeriod");
+
+            const label =
+                document.getElementById("incomeAmountLabel");
+
+            const input =
+                document.getElementById("incomeAmount");
+
+            if (period === "annual") {
+
+                label.textContent =
+                    "Annual Income (₹)";
+
+                input.placeholder =
+                    "Example: 1200000";
+
+            } else {
+
+                label.textContent =
+                    "Monthly Income (₹)";
+
+                input.placeholder =
+                    "Example: 100000";
+
+            }
+
+        }
+
+
+        document
+            .querySelectorAll('input[name="goalType"]')
+            .forEach(function(element) {
+
+                element.addEventListener(
+                    "change",
+                    updateGoalMode
+                );
+
+            });
+
+
+        document
+            .querySelectorAll('input[name="mode"]')
+            .forEach(function(element) {
+
+                element.addEventListener(
+                    "change",
+                    updateInputMode
+                );
+
+            });
+
+
+        document
+            .querySelectorAll('input[name="housing"]')
+            .forEach(function(element) {
+
+                element.addEventListener(
+                    "change",
+                    updateHousing
+                );
+
+            });
+
+
+        document
+            .querySelectorAll('input[name="homeLoan"]')
+            .forEach(function(element) {
+
+                element.addEventListener(
+                    "change",
+                    updateLoan
+                );
+
+            });
+
+
+        document
+            .querySelectorAll('input[name="maintenance"]')
+            .forEach(function(element) {
+
+                element.addEventListener(
+                    "change",
+                    updateMaintenance
+                );
+
+            });
+
+
+        document
+            .getElementById("maintenanceMode")
+            .addEventListener(
+                "change",
+                updateMaintenanceMode
+            );
+
+
+        document
+            .querySelectorAll('input[name="incomePeriod"]')
+            .forEach(function(element) {
+
+                element.addEventListener(
+                    "change",
+                    updateIncomePeriod
+                );
+
+            });
+
+
+        updateGoalMode();
+        updateInputMode();
+        updateHousing();
+        updateLoan();
+        updateMaintenance();
+        updateMaintenanceMode();
+        updateIncomePeriod();
+
+
+        /* Collect data */
+
+        function collectFormData() {
+
+            const mode =
+                getRadio("mode");
+
+            const goalType =
+                getRadio("goalType");
+
+            // Every calculation on the backend (and in main.py) works in
+            // monthly terms, so convert here — rather than touching the
+            // Python side — only when the person chose annual.
+            const incomePeriod =
+                getRadio("incomePeriod");
+
+            const incomeAmount =
+                getNumber("incomeAmount");
+
+            const income =
+                incomePeriod === "annual"
+                    ? incomeAmount / 12
+                    : incomeAmount;
+
+            const data = {
+
+                name:
+                    getValue("name").trim(),
+
+                income:
+                    income,
+
+                mode:
+                    mode,
+
+                risk:
+                    getRadio("risk"),
+
+                goal_type:
+                    goalType,
+
+                goal_preset:
+                    getValue("goalPreset"),
+
+                custom_goal_name:
+                    getValue("customGoalName").trim(),
+
+                custom_goal_amount:
+                    getNumber("customGoalAmount"),
+
+                housing:
+                    getRadio("housing"),
+
+                home_loan:
+                    getRadio("homeLoan") || "no",
+
+                loan_amount:
+                    getNumber("loanAmount"),
+
+                interest_rate:
+                    getNumber("interestRate"),
+
+                loan_tenure:
+                    getNumber("loanTenure"),
+
+                maintenance:
+                    getRadio("maintenance") || "no",
+
+                maintenance_mode:
+                    getValue("maintenanceMode"),
+
+                maintenance_cost:
+                    getNumber("maintenanceCost"),
+
+                gender:
+                    getValue("applicantGender"),
+
+                sip_amount:
+                    getNumber("sipAmount"),
+
+                sip_years:
+                    getNumber("sipYears"),
+
+                lifestyle: {}
+
+            };
+
+
+            if (mode === "simple") {
+
+                data.lifestyle = {
+
+                    travel:
+                        getValue("travelSimple"),
+
+                    grocery:
+                        getValue("grocerySimple"),
+
+                    food:
+                        getValue("foodSimple"),
+
+                    medical:
+                        getValue("medicalSimple"),
+
+                    misc:
+                        getValue("miscSimple")
+
+                };
+
+            } else {
+
+                data.lifestyle = {
+
+                    travel:
+                        getNumber("travelAdvanced"),
+
+                    grocery:
+                        getNumber("groceryAdvanced"),
+
+                    food:
+                        getNumber("foodAdvanced"),
+
+                    medical:
+                        getNumber("medicalAdvanced"),
+
+                    misc:
+                        getNumber("miscAdvanced")
+
+                };
+
+            }
+
+
+            return data;
+
+        }
+
+
+        function showError(message) {
+
+            const error =
+                document.getElementById(
+                    "inputError"
+                );
+
+            error.textContent =
+                message;
+
+            error.classList.add(
+                "visible"
+            );
+
+        }
+
+
+        function clearError() {
+
+            const error =
+                document.getElementById(
+                    "inputError"
+                );
+
+            error.textContent = "";
+
+            error.classList.remove(
+                "visible"
+            );
+
+        }
+
+
+        /* Render report */
+
+        function renderReport(data) {
+
+            const result =
+                document.getElementById(
+                    "result"
+                );
+
+
+            const score =
+                Number(data.score) || 0;
+
+
+            const status =
+                String(data.status || "");
+
+
+            let statusClass =
+                "status-risky";
+
+
+            if (
+                status.toLowerCase().includes("good")
+            ) {
+
+                statusClass =
+                    "status-good";
+
+            } else if (
+                status.toLowerCase().includes("moderate")
+            ) {
+
+                statusClass =
+                    "status-moderate";
+
+            }
+
+
+            let html = `
+
+                <h3>
+                    Financial Report for
+                    ${escapeHTML(data.name)}
+                </h3>
+
+
+                <div class="score-display">
+
+                    <div class="score-number">
+                        ${score}
+                    </div>
+
+                    <div>
+
+                        <div class="small-note">
+                            FINANCIAL HEALTH SCORE
+                        </div>
+
+                        <span class="status-pill ${statusClass}">
+                            ${escapeHTML(status)}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-progress">
+
+                    <div
+                        class="result-progress-fill"
+                        style="width:${Math.max(
+                            0,
+                            Math.min(100, score)
+                        )}%"
+                    ></div>
+
+                </div>
+
+
+                <div class="report-section">
+
+                    <h4>
+                        💰 Financial Snapshot
+                    </h4>
+
+                    <div class="metric-grid">
+
+                        <div class="metric">
+                            <span>Monthly Income</span>
+                            <strong>
+                                ${formatRupees(data.income)}
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Total Expenses</span>
+                            <strong>
+                                ${formatRupees(data.total_expense)}
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Monthly EMI</span>
+                            <strong>
+                                ${formatRupees(data.emi)}
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Monthly Savings</span>
+                            <strong>
+                                ${formatRupees(data.savings)}
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Savings Rate</span>
+                            <strong>
+                                ${Number(
+                                    data.savings_rate
+                                ).toFixed(1)}%
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Expense Rate</span>
+                            <strong>
+                                ${Number(
+                                    data.expense_rate
+                                ).toFixed(1)}%
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>EMI Rate</span>
+                            <strong>
+                                ${Number(
+                                    data.emi_rate
+                                ).toFixed(1)}%
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Recommended Emergency Fund</span>
+                            <strong>
+                                ${formatRupees(
+                                    data.emergency_fund
+                                )}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-section">
+
+                    <h4>
+                        🧠 Why This Result?
+                    </h4>
+
+                    <ul class="report-list">
+
+                        ${
+                            (data.reasons || [])
+                                .map(function(reason) {
+                                    return "<li>" +
+                                        escapeHTML(reason) +
+                                        "</li>";
+                                })
+                                .join("")
+                        }
+
+                    </ul>
+
+
+                    <div class="explanation-box">
+
+                        <strong>
+                            Financial Explanation
+                        </strong>
+
+                        <div class="small-note">
+                            ${escapeHTML(
+                                data.financial_explanation ||
+                                "Your income, expense, savings and EMI indicators were evaluated."
+                            )}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-section">
+
+                    <h4>
+                        🏠 Housing Analysis
+                    </h4>
+
+                    <p>
+                        <b>Housing Type:</b>
+                        ${escapeHTML(data.housing)}
+                    </p>
+
+                    <p class="small-note">
+                        ${escapeHTML(
+                            data.housing_explanation || ""
+                        )}
+                    </p>
+
+                </div>
+
+
+                <div class="report-section">
+
+                    <h4>
+                        🍽️ Lifestyle Analysis
+                    </h4>
+
+                    <p class="small-note">
+                        ${escapeHTML(
+                            data.lifestyle_explanation || ""
+                        )}
+                    </p>
+
+                </div>
+
+
+                <div class="report-section">
+
+                    <h4>
+                        🎯 Goal Analysis
+                    </h4>
+
+                    <div class="metric-grid">
+
+                        <div class="metric">
+
+                            <span>Goal</span>
+
+                            <strong>
+                                ${escapeHTML(
+                                    data.goal_name
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <span>Target Amount</span>
+
+                            <strong>
+                                ${formatRupees(
+                                    data.goal_amount
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <span>
+                                Estimated Completion
+                            </span>
+
+                            <strong>
+
+                                ${
+                                    data.goal_years === null
+                                    ? "Currently not achievable"
+                                    : Number(
+                                        data.goal_years
+                                    ).toFixed(1) +
+                                      " years"
+                                }
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <span>
+                                Current Yearly Progress
+                            </span>
+
+                            <strong>
+                                ${Number(
+                                    data.goal_progress
+                                ).toFixed(1)}%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="explanation-box">
+
+                        <strong>
+                            ${escapeHTML(
+                                data.goal_message || ""
+                            )}
+                        </strong>
+
+                        <div class="small-note">
+                            ${escapeHTML(
+                                data.goal_explanation || ""
+                            )}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-section">
+
+                    <h4>
+                        📈 Investment Advisory
+                    </h4>
+
+                    <p>
+                        <b>Risk Preference:</b>
+                        ${escapeHTML(data.risk)}
+                    </p>
+
+                    <p>
+                        <b>Suggested Approach:</b>
+                        ${escapeHTML(
+                            data.investment_recommendation || ""
+                        )}
+                    </p>
+
+                    <div class="explanation-box">
+
+                        <strong>
+                            Risk Explanation
+                        </strong>
+
+                        <div class="small-note">
+                            ${escapeHTML(
+                                data.investment_explanation || ""
+                            )}
+                        </div>
+
+                        ${
+                            data.investment_examples &&
+                            data.investment_examples.length
+
+                                ? `
+                                    <div class="small-note">
+                                        <b>Typically looks like:</b>
+                                        <ul>
+                                            ${
+                                                data.investment_examples
+                                                    .map(function(ex) {
+                                                        return `<li>${escapeHTML(ex)}</li>`;
+                                                    })
+                                                    .join("")
+                                            }
+                                        </ul>
+                                    </div>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                    ${
+                        data.home_loan_gender_note
+                            ? `
+                                <div class="explanation-box">
+                                    <strong>
+                                        Home Loan &amp; Stamp Duty Note
+                                    </strong>
+                                    <div class="small-note">
+                                        ${escapeHTML(data.home_loan_gender_note)}
+                                    </div>
+                                </div>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+
+            if (data.portfolio) {
+
+                html += `
+
+                    <div class="report-section">
+
+                        <h4>
+                            📊 Suggested Portfolio Allocation
+                        </h4>
+
+                        ${
+                            Object.entries(data.portfolio)
+                                .map(function(entry) {
+
+                                    return `
+
+                                        <div class="portfolio-item">
+
+                                            <span>
+                                                ${escapeHTML(entry[0])}
+                                            </span>
+
+                                            <strong>
+                                                ${escapeHTML(
+                                                    String(entry[1])
+                                                )}
+                                            </strong>
+
+                                        </div>
+
+                                    `;
+
+                                })
+                                .join("")
+                        }
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (data.sip) {
+
+                html += `
+
+                    <div class="report-section">
+
+                        <h4>
+                            💹 SIP Projection
+                        </h4>
+
+                        <p class="small-note">
+                            Assumes ${escapeHTML(String(data.sip.annual_rate))}%
+                            expected annual return (based on your risk
+                            preference) — a planning estimate, not a
+                            guaranteed return.
+                        </p>
+
+                        <div class="result-row">
+                            <span class="label">Monthly SIP</span>
+                            <span class="value">
+                                ₹${Math.round(data.sip.monthly_amount).toLocaleString("en-IN")}
+                            </span>
+                        </div>
+
+                        <div class="result-row">
+                            <span class="label">Duration</span>
+                            <span class="value">
+                                ${escapeHTML(String(data.sip.years))} years
+                            </span>
+                        </div>
+
+                        <div class="result-row">
+                            <span class="label">Total Invested</span>
+                            <span class="value">
+                                ₹${Math.round(data.sip.invested).toLocaleString("en-IN")}
+                            </span>
+                        </div>
+
+                        <div class="result-row">
+                            <span class="label">Estimated Gains</span>
+                            <span class="value positive">
+                                ₹${Math.round(data.sip.gains).toLocaleString("en-IN")}
+                            </span>
+                        </div>
+
+                        <div class="result-row">
+                            <span class="label">Estimated Maturity Value</span>
+                            <span class="value positive">
+                                ₹${Math.round(data.sip.maturity_value).toLocaleString("en-IN")}
+                            </span>
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (data.fd_reference) {
+
+                html += `
+
+                    <div class="report-section">
+
+                        <h4>
+                            🏦 FD Rate Reference
+                        </h4>
+
+                        <p class="small-note">
+                            Indicative rates as of ${escapeHTML(data.fd_reference.updated)}.
+                            General reference only — always check the
+                            bank's current rate before investing.
+                        </p>
+
+                        <table class="fd-reference-table">
+                            <thead>
+                                <tr>
+                                    <th>Bank</th>
+                                    <th>1 Yr</th>
+                                    <th>3 Yr</th>
+                                    <th>5 Yr</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${
+                                    data.fd_reference.rates
+                                        .map(function(row) {
+                                            return `
+                                                <tr>
+                                                    <td>${escapeHTML(row.bank)}</td>
+                                                    <td>${escapeHTML(String(row.one_year))}%</td>
+                                                    <td>${escapeHTML(String(row.three_year))}%</td>
+                                                    <td>${escapeHTML(String(row.five_year))}%</td>
+                                                </tr>
+                                            `;
+                                        })
+                                        .join("")
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (data.simulation) {
+
+                html += `
+
+                    <div class="report-section">
+
+                        <h4>
+                            📈 10-Year Wealth Simulation
+                        </h4>
+
+                        ${
+                            data.simulation.available
+
+                            ? `
+
+                                <div class="metric-grid">
+
+                                    <div class="metric">
+                                        <span>Expected Outcome</span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.simulation.average
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>Median Outcome</span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.simulation.median
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>Best Case</span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.simulation.best
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>Worst Case</span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.simulation.worst
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>
+                                            Conservative — 10th Percentile
+                                        </span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.simulation.percentile_10
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>
+                                            Optimistic — 90th Percentile
+                                        </span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.simulation.percentile_90
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="explanation-box">
+
+                                    <strong>
+                                        Long-Term Interpretation
+                                    </strong>
+
+                                    <div class="small-note">
+                                        ${escapeHTML(
+                                            data.simulation.explanation
+                                        )}
+                                    </div>
+
+                                </div>
+
+                            `
+
+                            : `
+
+                                <p class="small-note">
+                                    Simulation unavailable because
+                                    there is currently no positive
+                                    monthly savings surplus.
+                                </p>
+
+                            `
+                        }
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (data.optimization) {
+
+                html += `
+
+                    <div class="report-section">
+
+                        <h4>
+                            ⚡ Optimal Budget Allocation
+                        </h4>
+
+                        ${
+                            data.optimization.available
+
+                            ? `
+
+                                <div class="metric-grid">
+
+                                    ${
+                                        Object.entries(
+                                            data.optimization.allocation
+                                        )
+                                        .map(function(entry) {
+
+                                            return `
+
+                                                <div class="metric">
+
+                                                    <span>
+                                                        ${escapeHTML(entry[0])}
+                                                    </span>
+
+                                                    <strong>
+                                                        ${formatRupees(
+                                                            entry[1]
+                                                        )}
+                                                    </strong>
+
+                                                </div>
+
+                                            `;
+
+                                        })
+                                        .join("")
+                                    }
+
+                                </div>
+
+
+                                <div class="explanation-box">
+
+                                    <strong>
+                                        Maximum Savings Under This Allocation
+                                    </strong>
+
+                                    <div class="small-note">
+
+                                        ${formatRupees(
+                                            data.optimization.optimal_savings
+                                        )}
+
+                                    </div>
+
+                                    <br>
+
+                                    <div class="small-note">
+
+                                        ${escapeHTML(
+                                            data.optimization.explanation
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+                            `
+
+                            : `
+
+                                <p class="small-note">
+                                    ${escapeHTML(
+                                        data.optimization.explanation
+                                    )}
+                                </p>
+
+                            `
+                        }
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (data.history) {
+
+                html += `
+
+                    <div class="report-section">
+
+                        <h4>
+                            📉 Savings History
+                        </h4>
+
+                        ${
+                            data.history.count > 0
+
+                            ? `
+
+                                <p class="small-note">
+                                    Previous records:
+                                    ${data.history.count}
+                                </p>
+
+                                ${
+                                    data.history.values
+                                        .map(function(amount, index) {
+
+                                            return `
+
+                                                <div class="history-item">
+
+                                                    <span>
+                                                        Session ${index + 1}
+                                                    </span>
+
+                                                    <strong>
+                                                        ${formatRupees(amount)}
+                                                    </strong>
+
+                                                </div>
+
+                                            `;
+
+                                        })
+                                        .join("")
+                                }
+
+                                <div
+                                    class="metric-grid"
+                                    style="margin-top:15px;"
+                                >
+
+                                    <div class="metric">
+                                        <span>Average Savings</span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.history.average
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>Highest Savings</span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.history.highest
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>Lowest Savings</span>
+                                        <strong>
+                                            ${formatRupees(
+                                                data.history.lowest
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div class="metric">
+                                        <span>Latest Trend</span>
+                                        <strong>
+                                            ${escapeHTML(
+                                                data.history.trend
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                </div>
+
+                            `
+
+                            : `
+
+                                <p class="small-note">
+                                    No previous records available.
+                                    This session has been saved for
+                                    future trend analysis.
+                                </p>
+
+                            `
+                        }
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (
+                data.warnings &&
+                data.warnings.length > 0
+            ) {
+
+                html += `
+
+                    <div class="report-section">
+
+                        <h4>
+                            ⚠️ Warnings
+                        </h4>
+
+                        <ul class="report-list">
+
+                            ${
+                                data.warnings
+                                    .map(function(warning) {
+                                        return "<li>" +
+                                            escapeHTML(warning) +
+                                            "</li>";
+                                    })
+                                    .join("")
+                            }
+
+                        </ul>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            html += `
+
+                <div class="report-section">
+
+                    <a
+                        href="/api/report"
+                        target="_blank"
+                        class="download-button"
+                    >
+                        📄 View Financial Report
+                    </a>
+
+                </div>
+
+            `;
+
+
+            result.innerHTML =
+                html;
+
+
+            result.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+        /* Submit */
+
+        document
+            .getElementById("financeForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+                    clearError();
+
+
+                    const button =
+                        document.getElementById(
+                            "analyzeButton"
+                        );
+
+
+                    const result =
+                        document.getElementById(
+                            "result"
+                        );
+
+
+                    const data =
+                        collectFormData();
+
+
+                    if (!data.name) {
+
+                        showError(
+                            "Please enter your name."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        data.income <= 0
+                    ) {
+
+                        showError(
+                            "Income must be greater than ₹0."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        data.goal_type === "custom"
+                    ) {
+
+                        if (
+                            !data.custom_goal_name
+                        ) {
+
+                            showError(
+                                "Please enter a name for your custom goal."
+                            );
+
+                            return;
+
+                        }
+
+
+                        if (
+                            data.custom_goal_amount <= 0
+                        ) {
+
+                            showError(
+                                "Custom goal amount must be greater than ₹0."
+                            );
+
+                            return;
+
+                        }
+
+                    }
+
+
+                    if (
+                        data.housing === "own" &&
+                        data.home_loan === "yes"
+                    ) {
+
+                        if (
+                            data.loan_amount <= 0 ||
+                            data.loan_tenure <= 0 ||
+                            data.interest_rate < 0
+                        ) {
+
+                            showError(
+                                "Please enter valid home loan details."
+                            );
+
+                            return;
+
+                        }
+
+                    }
+
+
+                    button.disabled =
+                        true;
+
+                    button.textContent =
+                        "Analyzing your finances...";
+
+
+                    result.classList.add(
+                        "loading"
+                    );
+
+
+                    result.innerHTML = `
+
+                        <h3>
+                            Running Financial Analysis...
+                        </h3>
+
+                        <p class="result-placeholder">
+                            Calculating financial health,
+                            goals, investments, simulation,
+                            optimization and history...
+                        </p>
+
+                    `;
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/api/analyze",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify(data)
+                                }
+                            );
+
+
+                        const responseData =
+                            await response.json();
+
+
+                        if (
+                            !response.ok
+                        ) {
+
+                            throw new Error(
+                                responseData.error ||
+                                "Something went wrong."
+                            );
+
+                        }
+
+
+                        renderReport(
+                            responseData
+                        );
+
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        showError(
+                            error.message ||
+                            "Unable to connect to the Python backend."
+                        );
+
+
+                        result.innerHTML = `
+
+                            <h3>
+                                Analysis Failed
+                            </h3>
+
+                            <p class="result-placeholder">
+                                ${escapeHTML(
+                                    error.message ||
+                                    "Unable to connect to the backend."
+                                )}
+                            </p>
+
+                        `;
+
+                    } finally {
+
+                        button.disabled =
+                            false;
+
+                        button.textContent =
+                            "Analyze My Finances →";
+
+                        result.classList.remove(
+                            "loading"
+                        );
+
+                    }
+
+                }
+            );
+
+    </script>
+
+</body>
+</html>

@@ -245,20 +245,6 @@ pip install -r requirements.txt
 
 ---
 
-## 📊 Screenshots
-
-### Financial Health Analyzer
-
-### Financial Report
-
-### Budget Optimization
-
-### Monte Carlo Wealth Forecast
-
-### Savings Trend
-
----
-
 ## 🔐 Data & Privacy
 
 The project is designed as a personal-finance analysis tool.
